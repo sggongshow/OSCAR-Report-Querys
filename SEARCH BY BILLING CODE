@@ -1,0 +1,24 @@
+<report title="SEARCH BY BILLING CODE - S.GONG" description="Pt list of services provided by specific physicians between dates" active="1">
+//S.Gong Nov30,2021
+<query>
+
+select createdate,service_date,last_name,first_name,hin,billing_code,practitioner_no
+from billingmaster, demographic 
+where billingmaster.demographic_no = demographic.demographic_no and (createdate >= '{start}') and (createdate <= '{end}')  AND practitioner_no = '{provider_no}' AND billing_code in ({billing_code})
+order by createdate DESC;
+
+</query>
+
+<param id="billing_code" type="textlist" description="Billing Code">
+   </param>
+
+<param id="provider_no" type="list" description="Provider Number">
+<param-query> SELECT provider_no, concat(last_name,',',first_name,'(',provider_no,')') FROM provider WHERE status='1' AND provider_type='doctor' AND ohip_no>1 ORDER BY provider_no;</param-query>
+</param>
+<param id="start" type="date" description="Service Date From">
+   </param>
+<param id="end" type="date" description="Service Date From">
+   </param>
+
+
+</report>
